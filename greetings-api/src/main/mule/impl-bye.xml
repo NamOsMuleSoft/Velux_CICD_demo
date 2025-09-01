@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:backend-api="http://www.mulesoft.org/schema/mule/backend-api"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/backend-api http://www.mulesoft.org/schema/mule/backend-api/current/mule-backend-api.xsd">
+	
+	<backend-api:config name="Backend_api_Config" doc:name="Backend-api Config" doc:id="84bcae06-597c-4ee5-b04f-2121f3aa7b3c" property_host="backend-api-wckc9p.wsyr1h-2.irl-e1.cloudhub.io" property_port="80" property_protocol="HTTP" property_basePath="/api"/>
+	<sub-flow name="bye-impl" doc:id="5c54a618-e36b-41ab-bc2c-a9b614af6963" >
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="d396a561-ee7c-477c-ae70-51325bf5ee91" variableName="name"/>
+		<try doc:name="Try" doc:id="09db5d01-ce51-4c5a-8d0d-6cb59221450f" >
+			<ee:transform doc:name="Mapper WITH ERROR" doc:id="409797cb-3668-41fd-8b36-46f704725841">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Bye" ++ attributes.queryParams.XXX
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0d353cef-f249-4ba0-8d91-c033a0519214" >
+					<flow-ref doc:name="Common-error" doc:id="d53e6223-7815-4325-8748-6b87865b2119" name="common-error-libFlow" targetValue='#["Error BYE !" ++ vars.name]' />
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<backend-api:get-backends doc:name="Get backends" doc:id="d8e96f6e-700e-42bc-b1ea-d784ca69a105" config-ref="Backend_api_Config" sc-name='#["From Bye" ++ vars.name]' />
+		<ee:transform doc:name="Transform Response" doc:id="d8c1183a-48c3-4e41-87e8-2909c1c2916c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Bye" ++ vars.name
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	
+	</mule>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:backend-api="http://www.mulesoft.org/schema/mule/backend-api"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/backend-api http://www.mulesoft.org/schema/mule/backend-api/current/mule-backend-api.xsd">
+	
+	
+	<sub-flow name="hello-impl" doc:id="539d4140-135f-4330-9b3c-e64d8bb2008c" >
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="dab65858-8be9-4308-b268-f705e408fd66" variableName="name"/>
+		<try doc:name="Try" doc:id="ee4990d1-f713-45e8-bab4-6f9a1caa48c9" >
+			<ee:transform doc:name="Mapper no ERROR" doc:id="bfe43544-f3db-4f1b-a1ae-ad55e5fec68c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Hello" ++ attributes.queryParams.name
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3187509b-d252-4a28-acb7-fa180ada1062" >
+					<flow-ref doc:name="Flow Reference" doc:id="32a6a3f4-48c5-48a4-a430-406bad6acf17" name="common-error-libFlow" targetValue='#["Error Hello !" ++ vars.name]'/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<backend-api:get-backends doc:name="Get backends" doc:id="d68fa740-09dc-4b07-a29a-bf60bcf93d49" config-ref="Backend_api_Config" sc-name="#[vars.name]"/>
+		<ee:transform doc:name="Transform Response" doc:id="b92a2bfc-1927-4c5a-b5ac-51f33bc64ee3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Hello" ++ vars.name
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	
+	</mule>
