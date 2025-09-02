@@ -4,11 +4,11 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
     <http:listener-config name="greetings-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-    <apikit:config name="greetings-api-config" api="resource::f57ddab8-f102-47ee-9a68-2754650997a5:greetings-api:1.0.0:raml:zip:greetings-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="greetings-api-config" api="resource::0b4929a2-ab51-4095-9e4d-5b32b8a2de6b:greetings-api:1.0.0:raml:zip:greetings-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	
 	
 	<import doc:name="Import" doc:id="5c3f1a3b-6412-43a4-82fc-fcb45c4d6139" file="common-error-lib.xml" />
-	<api-gateway:autodiscovery apiId="20496009" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3e897c22-2ec0-43b7-9d9d-43f51d252dc3" flowRef="greetings-api-main" />
+	<api-gateway:autodiscovery apiId="20498127" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3e897c22-2ec0-43b7-9d9d-43f51d252dc3" flowRef="greetings-api-main" />
 	<flow name="greetings-api-main">
         <http:listener config-ref="greetings-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">

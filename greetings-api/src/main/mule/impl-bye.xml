@@ -7,7 +7,7 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/backend-api http://www.mulesoft.org/schema/mule/backend-api/current/mule-backend-api.xsd">
 	
-	<backend-api:config name="Backend_api_Config" doc:name="Backend-api Config" doc:id="84bcae06-597c-4ee5-b04f-2121f3aa7b3c" property_host="backend-api-wckc9p.wsyr1h-2.irl-e1.cloudhub.io" property_port="80" property_protocol="HTTP" property_basePath="/api"/>
+	<backend-api:config name="Backend_api_Config" doc:name="Backend-api Config" doc:id="84bcae06-597c-4ee5-b04f-2121f3aa7b3c" property_host="backend-api-app-bp3djo.dw4w1g-1.gbr-e1.cloudhub.io" property_port="80" property_protocol="HTTP" property_basePath="/api"/>
 	<sub-flow name="bye-impl" doc:id="5c54a618-e36b-41ab-bc2c-a9b614af6963" >
 		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="d396a561-ee7c-477c-ae70-51325bf5ee91" variableName="name"/>
 		<try doc:name="Try" doc:id="09db5d01-ce51-4c5a-8d0d-6cb59221450f" >
