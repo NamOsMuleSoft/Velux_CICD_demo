@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/backend-api http://www.mulesoft.org/schema/m
 output application/json
 ---
 {
-	message: "Bye" ++ attributes.queryParams.XXX
+	message: "Bye" ++ attributes.queryParams.name
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
